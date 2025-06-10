@@ -334,13 +334,13 @@
 }
 
 function judgeEnding(ings) {
-  if (ings.includes("세구의 고양이 모양 초콜릿")) return "세구엔딩"; // ✅ 추가
-
-  if (ings.length === 1 && ings[0] === "자두") return "자두엔딩";
-  if (ings.length === 1) return "배드엔딩";
+  if (ings.includes("세구의 고양이 모양 초콜릿")) return "세구엔딩";
 
   if (ings.includes(secretIngredient)) return "히든엔딩";
   if (ings.includes("마스터피스 르르")) return "감동엔딩";
+  
+  if (ings.length === 1 && ings[0] === "자두") return "자두엔딩";
+  if (ings.length === 1) return "배드엔딩";
 
   let sweetLevel = 0;
   let sourLevel = 0;
