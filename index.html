@@ -284,32 +284,50 @@
   });
 
   function applyCoupon(code) {
-    if (code.toLowerCase() === 'jururu') {
-      if (!selectedIngredients.includes(secretIngredient)) {
-        if (selectedIngredients.length >= 3) {
-          alert("❗ 재료는 최대 3개까지 선택할 수 있어요!");
-          return;
-        }
-        selectedIngredients.push(secretIngredient);
-        renderSelected();
-        alert("🎉 비밀 재료 '주르르 장식'이 추가되었습니다!");
-      } else {
-        alert("❗ 이미 비밀 재료가 포함되어 있어요!");
+  const lowerCode = code.toLowerCase();
+  
+  if (lowerCode === 'jururu') {
+    if (!selectedIngredients.includes(secretIngredient)) {
+      if (selectedIngredients.length >= 3) {
+        alert("❗ 재료는 최대 3개까지 선택할 수 있어요!");
+        return;
       }
+      selectedIngredients.push(secretIngredient);
+      renderSelected();
+      alert("🎉 비밀 재료 '주르르 장식'이 추가되었습니다!");
     } else {
-      alert("❌ 잘못된 쿠폰 코드입니다.");
+      alert("❗ 이미 비밀 재료가 포함되어 있어요!");
     }
   }
 
+  else if (lowerCode === '0826') {
+    if (!selectedIngredients.includes("마스터피스 르르")) {
+      if (selectedIngredients.length >= 3) {
+        alert("❗ 재료는 최대 3개까지 선택할 수 있어요!");
+        return;
+      }
+      selectedIngredients.push("마스터피스 르르");
+      renderSelected();
+      alert("🎉 비밀 재료 '마스터피스 르르'가 추가되었습니다!");
+    } else {
+      alert("❗ 이미 이 비밀 재료가 포함되어 있어요!");
+    }
+  }
 
-  function judgeEnding(ings) {
+  else {
+    alert("❌ 잘못된 쿠폰 코드입니다.");
+  }
+}
+
+function judgeEnding(ings) {
   if (ings.length === 1 && ings[0] === "자두") return "자두엔딩";
   if (ings.length === 1) return "배드엔딩";
 
   if (ings.includes(secretIngredient)) return "히든엔딩";
+  if (ings.includes("마스터피스 르르")) return "감동엔딩"; // ✅ 감동엔딩 추가
 
-  let sweetLevel = 0;  // 0~2 (0:없음, 1:중간, 2:강함)
-  let sourLevel = 0;   // 0~2
+  let sweetLevel = 0;
+  let sourLevel = 0;
 
   ings.forEach(ing => {
     if (ing === "꿀") sweetLevel = Math.max(sweetLevel, 2);
@@ -318,33 +336,23 @@
     else if (ing === "과일") sourLevel = Math.max(sourLevel, 1);
   });
 
-
-
-  if (sweetLevel === 2) {
-
-    return "노멀엔딩";
-  } else if (sweetLevel === 1 && sourLevel >= 1) {
-
-    return "극찬엔딩";
-  } else if (sweetLevel <= 1 && sourLevel >= 1) {
-
-    return "칭찬엔딩";
-  }
-
+  if (sweetLevel === 2) return "노멀엔딩";
+  else if (sweetLevel === 1 && sourLevel >= 1) return "극찬엔딩";
+  else if (sweetLevel <= 1 && sourLevel >= 1) return "칭찬엔딩";
 
   if (ings.length > 0) return "노멀엔딩";
-
   return "배드엔딩";
 }
 
-  const endingMessages = {
-    "극찬엔딩": "이거, 너무 맛있다! 완전 내 취향!",
-    "칭찬엔딩": "맛있다! 좀 하는데?",
-    "자두엔딩": "이거 완전 자두케이크 아냐? 귀여워!",
-    "노멀엔딩": "조금 달긴 하지만... 맛있네",
-    "배드엔딩": "흠르르... 내 취향은 아니다.",
-    "히든엔딩": "이 장식, 꽤 귀여운걸? 흠르르... 조금 르르 마음에 들지도?"
-  };
+const endingMessages = {
+  "극찬엔딩": "이거, 너무 맛있다! 완전 내 취향!",
+  "칭찬엔딩": "맛있다! 좀 하는데?",
+  "자두엔딩": "이거 완전 자두케이크 아냐? 귀여워!",
+  "노멀엔딩": "조금 달긴 하지만... 맛있네",
+  "배드엔딩": "흠르르... 내 취향은 아니다.",
+  "히든엔딩": "이 장식, 꽤 귀여운걸? 흠르르... 조금 르르 마음에 들지도?",
+  "감동엔딩": "마스터피스, 기억해주는구나? 내가 이 자리까지 온 건 폭도 덕분이야." // ✅ 추가
+};
 
   function saveRecipe(name, ings, ending) {
     const key = ings.slice().sort().join("+");
