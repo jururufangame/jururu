@@ -285,7 +285,7 @@
 
   function applyCoupon(code) {
   const lowerCode = code.toLowerCase();
-  
+
   if (lowerCode === 'jururu') {
     if (!selectedIngredients.includes(secretIngredient)) {
       if (selectedIngredients.length >= 3) {
@@ -314,17 +314,33 @@
     }
   }
 
+  else if (lowerCode === '무7즈') { // ✅ 새로운 쿠폰
+    if (!selectedIngredients.includes("세구의 고양이 모양 초콜릿")) {
+      if (selectedIngredients.length >= 3) {
+        alert("❗ 재료는 최대 3개까지 선택할 수 있어요!");
+        return;
+      }
+      selectedIngredients.push("세구의 고양이 모양 초콜릿");
+      renderSelected();
+      alert("🎉 비밀 재료 '세구의 고양이 모양 초콜릿'이 추가되었습니다!");
+    } else {
+      alert("❗ 이미 이 비밀 재료가 포함되어 있어요!");
+    }
+  }
+
   else {
     alert("❌ 잘못된 쿠폰 코드입니다.");
   }
 }
 
 function judgeEnding(ings) {
+  if (ings.includes("세구의 고양이 모양 초콜릿")) return "세구엔딩"; // ✅ 추가
+
   if (ings.length === 1 && ings[0] === "자두") return "자두엔딩";
   if (ings.length === 1) return "배드엔딩";
 
   if (ings.includes(secretIngredient)) return "히든엔딩";
-  if (ings.includes("마스터피스 르르")) return "감동엔딩"; // ✅ 감동엔딩 추가
+  if (ings.includes("마스터피스 르르")) return "감동엔딩";
 
   let sweetLevel = 0;
   let sourLevel = 0;
@@ -351,9 +367,10 @@ const endingMessages = {
   "노멀엔딩": "조금 달긴 하지만... 맛있네",
   "배드엔딩": "흠르르... 내 취향은 아니다.",
   "히든엔딩": "이 장식, 꽤 귀여운걸? 흠르르... 조금 르르 마음에 들지도?",
-  "감동엔딩": "마스터피스, 기억해주는구나? 내가 이 자리까지 온 건 폭도 덕분이야." // ✅ 추가
+  "감동엔딩": "마스터피스, 기억해주는구나? 내가 이 자리까지 온 건 폭도 덕분이야.",
+  "세구엔딩": "이거 세구가 그린거지? 역시, 세구일줄 알았어."
 };
-
+  
   function saveRecipe(name, ings, ending) {
     const key = ings.slice().sort().join("+");
     if (recipeLog.some(r => r.key === key)) return;
